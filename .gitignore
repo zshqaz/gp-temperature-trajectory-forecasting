@@ -13,6 +13,16 @@ data/*.csv
 data/*.nc
 data/*.grib
 outputs/
+results/
+artifacts/
+reports/generated/
+experiment_result*.md
+
+# Test and analysis caches
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
 
 # Editors and operating systems
 .idea/

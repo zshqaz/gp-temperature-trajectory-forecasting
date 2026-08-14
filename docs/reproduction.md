@@ -1,6 +1,6 @@
 # Reproducing the dissertation experiments
 
-Run all commands from the repository root with Python 3.12.
+Run all commands from the repository root with Python 3.12. The repository contains source code and configurations, not precomputed results. Every command below creates a new directory under `outputs/`, which is ignored by Git.
 
 ## 1. Create the environment
 
@@ -14,7 +14,7 @@ python -m unittest discover -s tests -v
 
 ## 2. Add and verify the data
 
-Follow `docs/data_acquisition.md`. The configuration requires the exact SHA-256 of the dissertation CSV.
+Follow `docs/data_acquisition.md`. The configuration requires the exact SHA-256 of the dissertation CSV. No experiment command will run if the file is absent or its checksum, columns, coordinates, timestamps or daily curve structure fail validation.
 
 ## 3. Smoke test
 
@@ -60,7 +60,32 @@ python -m gp_temperature_experiment.validation \
   --seed 314159
 ```
 
-This produces SHA-256 comparisons, paired year-block sign-flip tests with Benjamini--Hochberg correction, and year-block bootstrap intervals for coverage. The compact dissertation snapshot is in `results/validation/`.
+This produces SHA-256 comparisons, paired year-block sign-flip tests with Benjamini--Hochberg correction, and year-block bootstrap intervals for coverage. The validation command reads only the two run directories supplied on the command line and writes new artifacts to the requested output directory.
+
+## 7. Understand the generated files
+
+Each experiment output contains:
+
+```text
+outputs/<run>/
+├── diagnostics/optimization_starts.csv
+├── logs/progress.jsonl
+├── metrics/day_level_scores.csv
+├── metrics/horizon_level_scores.csv
+├── metrics/model_summary.csv
+├── metrics/coverage_by_horizon.csv
+├── metrics/paired_comparisons.csv
+├── metrics/atypical_day_diagnostics.csv
+├── provenance/data_audit.json
+├── provenance/environment.txt
+├── provenance/frozen_config.yaml
+├── predictions/                     # reserved for optional prediction exports
+└── experiment_result_gp_temperature_v1.md
+```
+
+`day_level_scores.csv` has one row per held-out day and model. `horizon_level_scores.csv` has one row per future hour, day and model. The summary files are derived from those two granular tables. `optimization_starts.csv` retains every likelihood start so that convergence and boundary behaviour can be audited. The provenance directory records the exact configuration, data checks and runtime environment.
+
+Do not commit generated artifacts. If an immutable audit copy is required, store it outside the repository and record the source commit, configuration hash and data hash alongside it.
 
 ## Expected runtime and storage
 

@@ -1,14 +1,11 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite the versioned repository release."
+message: "If you use this software, please cite the repository and the exact commit used for the analysis."
 title: "Gaussian-process forecasting of London July temperature trajectories"
 type: software
 authors:
   - family-names: Zhang
     given-names: Songhai
-version: 1.0.0
-date-released: 2026-08-10
 repository-code: "https://github.com/clqqqaz/gp-temperature-trajectory-forecasting"
-url: "https://github.com/clqqqaz/gp-temperature-trajectory-forecasting/releases/tag/v1.0.0"
 keywords:
   - Gaussian process
   - probabilistic forecasting
