@@ -12,6 +12,6 @@ The analysis uses hourly ERA5-Land 2 m temperature at latitude 51.5, longitude 0
 - `results/`: compact result tables, optimisation diagnostics, provenance, and the deterministic reproducibility comparison used in the dissertation.
 - `docs/`: data acquisition, complete reproduction commands, experiment protocol, and validation notes.
 
-The raw ERA5-Land file and large generated day- and horizon-level output tables are not committed. The analysed CSV is identified by SHA-256, and the program refuses to run if the checksum differs.
+The raw ERA5-Land file and large generated day- and horizon-level output tables are not committed.
 
 
