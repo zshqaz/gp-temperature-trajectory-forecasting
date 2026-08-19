@@ -48,7 +48,7 @@ Each held-out year is processed independently. Training data are selected first,
 
 ## Data construction (`data.py`)
 
-`load_july_curves` is the input gate. It verifies the SHA-256 checksum before parsing the file, reads only `valid_time`, `t2m`, `latitude` and `longitude`, confirms the single grid point, converts Kelvin to Celsius and constructs a date-by-hour matrix. For local civil time, repeated clock-hour cells are averaged according to the frozen policy. Any incomplete day, unexpected coordinate, missing value or duplicate UTC timestamp raises an exception.
+`load_july_curves` is the input gate. It confirms that the requested file exists, reads only `valid_time`, `t2m`, `latitude` and `longitude`, confirms the single grid point, converts Kelvin to Celsius and constructs a date-by-hour matrix. For local civil time, repeated clock-hour cells are averaged according to the frozen policy. Any incomplete day, unexpected coordinate, missing value or duplicate UTC timestamp raises an exception. File naming and CSV serialization do not affect acceptance when the parsed content is valid.
 
 The return value contains both the curve matrix and a machine-readable audit dictionary. The audit is written to each run's provenance directory.
 
@@ -101,7 +101,7 @@ Random seeds are deterministic functions of the configured seed, held-out year, 
 
 ## Validation (`validation.py`)
 
-The validation module takes two independently generated run directories. It hashes corresponding files, applies paired sign-flip tests to year-level score differences, adjusts the resulting p-values with Benjamini--Hochberg, and constructs year-block bootstrap intervals for coverage. It never imports a bundled result snapshot.
+The validation module takes two independently generated run directories. It compares corresponding files byte-for-byte, applies paired sign-flip tests to year-level score differences, adjusts the resulting p-values with Benjamini--Hochberg, and constructs year-block bootstrap intervals for coverage. It never imports a bundled result snapshot.
 
 ## Extending the project
 

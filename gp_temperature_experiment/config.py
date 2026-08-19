@@ -20,7 +20,6 @@ def _validate(config: dict[str, Any]) -> None:
         "experiment_id",
         "version_label",
         "data_path",
-        "expected_sha256",
         "output_root",
         "analysis",
         "mean_model",

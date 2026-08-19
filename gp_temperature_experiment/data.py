@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import hashlib
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -14,22 +13,11 @@ class CurveData:
     audit: dict[str, object]
 
 
-def sha256_file(path: str | Path, chunk_size: int = 1024 * 1024) -> str:
-    digest = hashlib.sha256()
-    with Path(path).open("rb") as handle:
-        while chunk := handle.read(chunk_size):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
 def load_july_curves(config: dict) -> CurveData:
     path = Path(config["data_path"])
     analysis = config["analysis"]
-    actual_hash = sha256_file(path)
-    if actual_hash.lower() != config["expected_sha256"].lower():
-        raise ValueError(
-            f"SHA-256 mismatch: expected {config['expected_sha256']}, got {actual_hash}"
-        )
+    if not path.is_file():
+        raise FileNotFoundError(f"ERA5 CSV not found: {path}")
 
     raw = pd.read_csv(
         path,
@@ -102,7 +90,6 @@ def load_july_curves(config: dict) -> CurveData:
 
     audit = {
         "path": str(path.resolve()),
-        "sha256": actual_hash,
         "source_rows": source_rows,
         "analysis_scope_rows": int(len(raw)),
         "analysis_days": int(len(curves)),

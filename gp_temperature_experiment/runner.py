@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 import os
 import platform
-import shutil
 import sys
 import time
 from datetime import datetime, timezone
@@ -52,7 +51,12 @@ class ExperimentRunner:
     def run(self) -> Path:
         self._event("run_started", command=" ".join(sys.argv))
         self._write_environment()
-        shutil.copy2(self.config["_config_path"], self.provenance_dir / "frozen_config.yaml")
+        effective_config = {
+            key: value for key, value in self.config.items() if not key.startswith("_")
+        }
+        self._write_json(
+            self.provenance_dir / "frozen_config.yaml", effective_config
+        )
 
         curve_data = load_july_curves(self.config)
         curves_frame = curve_data.curves
@@ -486,4 +490,3 @@ def _json_default(value):
 
 def run_experiment(config: dict) -> Path:
     return ExperimentRunner(config).run()
-

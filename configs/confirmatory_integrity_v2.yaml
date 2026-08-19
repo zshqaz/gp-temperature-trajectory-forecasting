@@ -2,7 +2,6 @@
   "experiment_id": "exp-kernel-comparison",
   "version_label": "confirmatory_integrity_v2",
   "data_path": "data/reanalysis-era5-single-levels-timeseries-sfcb7pyzsqo.csv",
-  "expected_sha256": "159bdc3a41b80e161c3190a56601bfaa414f4c2137289193e8fc506626cc4441",
   "output_root": "outputs/confirmatory_integrity_v2",
   "analysis": {
     "first_year": 1940,

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 from pathlib import Path
 
 import numpy as np
@@ -11,8 +10,17 @@ import pandas as pd
 PRIMARY_METRICS = ("nlpd", "crps", "energy", "variogram", "max_crps")
 
 
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+def files_equal(left: Path, right: Path, chunk_size: int = 1024 * 1024) -> bool:
+    if not right.is_file() or left.stat().st_size != right.stat().st_size:
+        return False
+    with left.open("rb") as left_handle, right.open("rb") as right_handle:
+        while True:
+            left_chunk = left_handle.read(chunk_size)
+            right_chunk = right_handle.read(chunk_size)
+            if left_chunk != right_chunk:
+                return False
+            if not left_chunk:
+                return True
 
 
 def benjamini_hochberg(p_values: np.ndarray) -> np.ndarray:
@@ -125,16 +133,12 @@ def reproducibility_comparison(original: Path, rerun: Path) -> pd.DataFrame:
         original_path = original / relative
         rerun_path = rerun / relative
         exists = rerun_path.exists()
-        original_hash = sha256(original_path)
-        rerun_hash = sha256(rerun_path) if exists else ""
         rows.append(
             {
                 "file": str(relative),
                 "original_bytes": original_path.stat().st_size,
                 "rerun_bytes": rerun_path.stat().st_size if exists else -1,
-                "original_sha256": original_hash,
-                "rerun_sha256": rerun_hash,
-                "exact_match": bool(exists and original_hash == rerun_hash),
+                "exact_match": bool(exists and files_equal(original_path, rerun_path)),
             }
         )
     return pd.DataFrame(rows)
@@ -182,4 +186,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

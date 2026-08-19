@@ -1,14 +1,50 @@
 from __future__ import annotations
 
+import tempfile
 import unittest
+from pathlib import Path
 
 import numpy as np
+import pandas as pd
 
+from gp_temperature_experiment.data import load_july_curves
 from gp_temperature_experiment.kernels import SPECS, covariance
 from gp_temperature_experiment.mean import SmoothMeanModel
 from gp_temperature_experiment.models import make_gp_conditioner
 from gp_temperature_experiment.optimize import fit_kernel
 from gp_temperature_experiment.scores import ensemble_crps, evaluate_forecast, normal_cdf
+
+
+class DataLoaderTests(unittest.TestCase):
+    def test_downloaded_csv_runs_directly(self) -> None:
+        timestamps = pd.date_range(
+            "2025-07-01", periods=31 * 24, freq="h", tz="UTC"
+        )
+        frame = pd.DataFrame(
+            {
+                "valid_time": timestamps,
+                "t2m": 288.15 + np.sin(np.arange(len(timestamps)) / 24.0),
+                "latitude": 51.5,
+                "longitude": 0.0,
+            }
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "downloaded-era5.csv"
+            frame.to_csv(path, index=False)
+            result = load_july_curves(
+                {
+                    "data_path": str(path),
+                    "analysis": {
+                        "first_year": 2025,
+                        "last_year": 2025,
+                        "month": 7,
+                        "timezone": "UTC",
+                        "local_duplicate_hour_policy": "mean",
+                    },
+                }
+            )
+        self.assertEqual(len(result.curves), 31)
+        self.assertEqual(result.audit["analysis_hourly_rows"], 31 * 24)
 
 
 class KernelTests(unittest.TestCase):
@@ -93,4 +129,3 @@ class ScoreTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

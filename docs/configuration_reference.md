@@ -9,7 +9,6 @@ Configuration files use JSON syntax even when their extension is `.yaml`. This a
 | `experiment_id` | Human-readable experiment family identifier |
 | `version_label` | Label written into the frozen run configuration |
 | `data_path` | Local path to the separately downloaded ERA5-Land CSV |
-| `expected_sha256` | Exact permitted data-file checksum |
 | `output_root` | New directory receiving generated artifacts |
 | `analysis` | Time scope, clock definition, forecast split and test years |
 | `mean_model` | Mean-basis and smoothing settings |

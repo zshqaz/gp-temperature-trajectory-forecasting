@@ -2,7 +2,6 @@
   "experiment_id": "exp-kernel-comparison-sensitivity-utc-origin",
   "version_label": "revision_sensitivity_utc_origin_v1",
   "data_path": "data/reanalysis-era5-single-levels-timeseries-sfcb7pyzsqo.csv",
-  "expected_sha256": "159bdc3a41b80e161c3190a56601bfaa414f4c2137289193e8fc506626cc4441",
   "output_root": "outputs/sensitivity_utc_origin_v1",
   "analysis": {
     "first_year": 1940,

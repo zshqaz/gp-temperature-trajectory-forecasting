@@ -10,7 +10,7 @@ Each complete July day is represented by a temperature vector on the common hour
 
 The source is ERA5-Land hourly 2 m temperature at latitude 51.5 and longitude 0.0. The frozen analysis uses July 1940--2025. For a test year `y`, every transformation and model is fitted using years strictly earlier than `y`; all days in year `y` are then held out. This expanding-window design is repeated for 2001--2025.
 
-The loader checks the file hash, required columns, coordinates, missing values, UTC timestamp duplication and completeness of the 24-hour daily curves. Civil-time duplicate hours are collapsed by the pre-specified arithmetic-mean rule. Rows after the configured final year are excluded before summaries or fitted preprocessing.
+The loader checks the required columns, coordinates, missing values, UTC timestamp duplication and completeness of the 24-hour daily curves. Civil-time duplicate hours are collapsed by the pre-specified arithmetic-mean rule. Rows after the configured final year are excluded before summaries or fitted preprocessing. The input is accepted on the basis of these content checks rather than its filename or byte representation.
 
 ## Mean and residual process
 

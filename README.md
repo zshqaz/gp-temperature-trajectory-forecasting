@@ -27,7 +27,7 @@ Everything required to regenerate the analysis is included except the separately
 | `configs/` | Frozen JSON-compatible experiment configurations |
 | `tests/` | Deterministic tests for kernels, conditioning, optimisation, scoring and validation |
 | `data/README.md` | Required local data location |
-| `docs/data_acquisition.md` | Dataset retrieval, schema and checksum checks |
+| `docs/data_acquisition.md` | Dataset retrieval, accepted schema and structural checks |
 | `docs/experiment_design.md` | Statistical design and model comparison protocol |
 | `docs/code_walkthrough.md` | Module-by-module explanation and execution flow |
 | `docs/configuration_reference.md` | Meaning of every configuration section |
@@ -62,10 +62,18 @@ python -m pip install --no-deps -e .
 python -m unittest discover -s tests -v
 ```
 
-Download the data as described in [docs/data_acquisition.md](docs/data_acquisition.md) and save the CSV as:
+Download the data as described in [docs/data_acquisition.md](docs/data_acquisition.md). Either save the CSV at the default location:
 
 ```text
 data/reanalysis-era5-single-levels-timeseries-sfcb7pyzsqo.csv
+```
+
+or pass the downloaded file directly without renaming it:
+
+```bash
+python -m gp_temperature_experiment run \
+  --config configs/smoke.yaml \
+  --data path/to/downloaded-era5.csv
 ```
 
 Run the reduced end-to-end check:
