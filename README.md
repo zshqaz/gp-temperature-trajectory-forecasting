@@ -98,7 +98,7 @@ The implementation and equations are explained in [docs/code_walkthrough.md](doc
 
 ## Citation
 
-Use `CITATION.cff` and cite the exact Git commit used to run the analysis. The canonical repository is <https://github.com/clqqqaz/gp-temperature-trajectory-forecasting>.
+Use `CITATION.cff` and cite the exact Git commit used to run the analysis. The canonical repository is <https://github.com/zshqaz/gp-temperature-trajectory-forecasting>.
 
 ## Data and licensing
 

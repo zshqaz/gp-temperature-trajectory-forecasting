@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: Zhang
     given-names: Songhai
-repository-code: "https://github.com/clqqqaz/gp-temperature-trajectory-forecasting"
+repository-code: "https://github.com/zshqaz/gp-temperature-trajectory-forecasting"
 keywords:
   - Gaussian process
   - probabilistic forecasting
