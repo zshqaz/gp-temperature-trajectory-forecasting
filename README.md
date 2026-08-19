@@ -31,7 +31,7 @@ Everything needed to regenerate the analysis is included except the separately d
 | `docs/configuration_reference.md` | Configuration reference |
 | `docs/reproduction.md` | Installation, execution and validation commands |
 
-Downloaded ERA5 CSV files can be passed directly with `--data`; acceptance depends on their parsed columns, coordinate, timestamps, temperatures and complete-day structure rather than filename or serialization. See [docs/data_acquisition.md](docs/data_acquisition.md) and [docs/reproduction.md](docs/reproduction.md).
+Downloaded ERA5 CSV files can be passed directly with `--data`; acceptance depends on their parsed columns, coordinate, timestamps, temperatures and complete-day structure rather than filename or serialization. 
 
 ## Citation and licensing
 
